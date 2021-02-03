@@ -1,8 +1,8 @@
 # 99,1% im GTSRB-Testdatensatz mit Tensorflow durch ein flaches CNN
 This project is aviable on english too. Just follow this link to get to the englisch project.
 
-Dieses Projekt beschäftigt sich mit der Entwicklung eines flachen CNN zur Erkennung von Verkehrsschildern. Das Projekt in Schriftform findet ihr als PDF unter Project.pdf.
-Alles Programmcodes usw. findet ihr im weiteren hier. Das trainierte Model mit Aufbau und Gewichtungen findet ihr hier: ![model_99%2C105%25.hdf5](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/models/model_99%2C105%25.hdf5)
+Dieses Projekt beschäftigt sich mit der Entwicklung eines flachen CNN zur Erkennung von Verkehrsschildern. Das Projekt in Schriftform findet ihr als PDF unter ![Projekt](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf).
+Alles Programmcodes usw. findet ihr im weiteren hier. Das trainierte Model mit Aufbau und Gewichtungen findet ihr hier: ![model](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/models/model_99%2C105%25.hdf5)
 
 
 # Umsetzung
