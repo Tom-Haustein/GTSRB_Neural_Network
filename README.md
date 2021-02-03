@@ -32,10 +32,56 @@ for i in range(0,43):
 # Training
 Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Die richtigen Labels zu den Trainingbilder werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
 ```
+#importieren aller notwenigen Bibliotheken
+import tensorflow.compat.v1 as tf
+#Die Hauptbibliothek Tensorflow wird geladen
+from tensorflow.keras.models import Sequential, save_model
+from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPool2D, MaxPooling2D, Dense, Dropout, Activation, Flatten
+from tensorflow.keras.optimizers import RMSprop, Adagrad, Adam
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
+import csv
 
+Epochen=60
+Trainingsbilder = []
+Trainingslabels = []
+print("Trainingsdaten werden geladen")
+for i in range(0,43):
+    n = str(i)
+    Pfad = "GTSRB_Final_Training_Images/GTSRB/Final_Training/images/" + n
+    label=i
+    for Datei in os.listdir(Pfad):
+     img = os.path.join(Pfad,Datei)
+     #Bilder werden auf die Größe 32*32 Pixel mit RGB skaliert, damit diese eine einheitliche Größe haben
+     img = image.load_img(img,target_size=(32,32))
+     img = image.img_to_array(img,  dtype=np.float32)
+     img=img/255
+     img=filter(img)
+     img=img.reshape(1,32,32,3)
+     Trainingsbilder.append(img)
+     Trainingslabels.append(label)
+     #Doppeltes Hinzufügen der Trainingsbilder aus Bildklassen mit wenig Trainingsbildern
+     if i==0 or i==6 or i==18 or i==16 or i==19 or i==20 or i==21 or i==24 or i==27 or i==29 or i==32 or i==37:
+         Trainingsbilder.append(img)
+         Trainingslabels.append(label)
+
+#Umformung der Liste mit den Trainingsbildern in einen Tensor
+Trainingslabels = np.asarray(Trainingslabels)
+Trainingsbilder = np.asarray([Trainingsbilder])
+Trainingsbilder = Trainingsbilder.reshape(-1, 32, 32, 3)
+#Umwandlung der Farbwerte in Gleitkommazahlen zwischen 0 und 1
+#Trainingsbilder = Trainingsbilder/255
+Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
+Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
 ```
 Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer csv-Datei geladen. Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den Testdatensatz und keinen Validiation Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Das CNN darf mit dem Testdatensatz auf keinen Falls trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
+```
 
+```
 Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neuronales Netz zu basteln und dieses dann zu trainieren. Den genutzten Aufbau und die Hyperparamteter, wie Optimizer usw. habe ich durch viele Versuchsreihen ermittelt. Das heißt, dass dieser Aufbau zwar gut funktioniert, es aber auch deutlich bessere Hyperparameterwahlen geben könnte. Leider wären unzählige Versuche nötig, um die optimale Kombination aus diesen zu finden. Wie ich zu einigen Teilen des Netzaufbaus durch Versuchsreihen gelangt bin, könnt ihr in der PDF nachlesen. Insagesamt wurden in dem ganzen Projekt rund 45000 Messdaten genommen. Dazu habe ich die Messwerte aus jeder Epoche in eine csv-Datei geschrieben und diese Daten anschließend ausgewertet. Ein solches Programm findet ihr unter Trainingsprogramm_mit_messdaten.py. Zurück zum eigentlichen Trainingsprogramm. Den Rest des Trainingsprgrammes könnt ihr hier sehen:  
 
 Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht wie folgt aus:
