@@ -286,6 +286,7 @@ for a in range(10):
             print("NEUER BESTWERT !!!")
 ```
 Durch immer leicht zufällige Ergebnisse ist diese Art des Trainings auch  gut umsetzbar. So kam ich stufenweise auf immer höhere Ergebnisse. Erst erreichte ich 99 % Genauigkeit, dann 99,04 % und schlussendlich eine Genauigkeit von 99,105 % (damit ist es rund 0,3% besser in der Verkehrsschildklassifikation als ein Mensch und ein internationales Top-Ergebnis). Dieses Trainingergebnis sah dann wie folgt aus:
+ 
 ![Trainingsergebnis.jpg](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Bilder/top_result.JPG)
 
 # Test auf eigene Bilder
