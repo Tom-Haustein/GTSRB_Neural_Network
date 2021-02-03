@@ -114,7 +114,63 @@ Testlabels = np.asarray(Testlabels, dtype= "float32")
 ```
 Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neuronales Netz zu basteln und dieses dann zu trainieren. Den genutzten Aufbau und die Hyperparamteter, wie Optimizer usw. habe ich durch viele Versuchsreihen ermittelt. Das heißt, dass dieser Aufbau zwar gut funktioniert, es aber auch deutlich bessere Hyperparameterwahlen geben könnte. Leider wären unzählige Versuche nötig, um die optimale Kombination aus diesen zu finden. Wie ich zu einigen Teilen des Netzaufbaus durch Versuchsreihen gelangt bin, könnt ihr in der PDF nachlesen. Insagesamt wurden in dem ganzen Projekt rund 45000 Messdaten genommen. Dazu habe ich die Messwerte aus jeder Epoche in eine csv-Datei geschrieben und diese Daten anschließend ausgewertet. Ein solches Programm findet ihr unter Trainingsprogramm_mit_messdaten.py. Zurück zum eigentlichen Trainingsprogramm. Den Rest des Trainingsprgrammes könnt ihr hier sehen:  
 ```
+#Zusammenstellen des Neuronalen Netzes
+#zuerst Zusammenstellen der Filter mit Batchnormalisierung (3 Convolutional Filter, 2 Pooling Filter)
 
+model = Sequential(name='CNN')
+model.add(Conv2D(32, (3, 3), activation='selu', padding='same',input_shape=(32,32,3)))
+model.add(BatchNormalization())
+model.add(Conv2D(32, (3, 3)))
+model.add(Activation('relu'))
+model.add(BatchNormalization())
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(BatchNormalization())
+model.add(Conv2D(64, (2, 2)))
+model.add(Activation('relu'))
+model.add(BatchNormalization())
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.2))
+model.add(BatchNormalization())
+#Umformung des Veränderten Tensors in einen langen Vektor
+model.add(Flatten())
+
+#Aufstellen der 3 Neuronenschichten mit 750, 256 und 43 Neuronen, Festlegen der Dropoutraten
+#Neuronenzahl der 1. Schicht
+model.add(Dense(750))
+#Aktivierungsfunktion relu
+model.add(Activation('relu'))
+#Dropout festlegen
+model.add(Dropout(0.4))
+#Batchnormalisierung
+model.add(BatchNormalization())
+#weitere Schichten
+model.add(Dense(256))
+model.add(Activation('relu'))
+model.add(BatchNormalization())
+model.add(Dropout(0.6))
+model.add(Dense(43))
+#Softmax zur Umwandlung in Klassenwahrscheinlichkeiten
+model.add(Activation('softmax'))
+
+#festlegen von Verlustfunktion, Optimizer und metrics
+model.compile(loss='sparse_categorical_crossentropy',
+ optimizer='Adam',
+ metrics=['accuracy'])
+
+#Befehl zum Trainieren des Netzes über 60 Epochen mit shuffle, Batchsize 32
+#Trainiert wird mit den Trainingsbildern, nach jeder Trainingsepoche wird auf die Genauigkeit im Testdatensatz getestet
+for i in range(Epochen):
+    model.fit(Trainingsbilder, Trainingslabels, epochs=1, shuffle=True, batch_size=32)
+    #aus den Ergebnissen wird eine Genauigkeit im Testdatensatz errechnet, sowie ein durchschnittlicher Verlust
+    score=model.evaluate(Testbilder, Testlabels)
+    
+    print('Epoche',i+1)
+    print('Test Verlust:', score[0])
+    print('Test Genauigkeit:', score[1])
+    #speichern des trainierten Models im hdf5-Format, falls es über 99% Genauigkeit im testdatensatz hat
+    if score[1]>0.99:
+        model.save('model_'+str(score[1])+'.hdf5')
+        print("gespeichert")
 ```
 Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht wie folgt aus:
 
