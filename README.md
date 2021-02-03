@@ -10,7 +10,11 @@ Als Datensatz habe ich den GTSRB-Datensatz des Instituts für Neuroinformatik de
 
 # Vorbereitung
 Nach dem Download und entzippen des Datensatz (offizieller Downloadlink findet ihr hier) muss der Datensatz noch bearbeitet werden, damit dieser vom Trainingsprogramm fehlerfrei erkannt wird. Dafür habe ich folgendes Programm geschrieben, welches störende Datein löscht und die Ordner richtig umbenennt:
-
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
 ![Vorbereitung_Datensatz.py](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Programme/Vorbereitung_Datensatz.py)
 
 # Training
