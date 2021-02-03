@@ -11,11 +11,9 @@ Als Datensatz habe ich den GTSRB-Datensatz des Instituts für Neuroinformatik de
 # Vorbereitung
 Nach dem Download und entzippen des Datensatz (offizieller Downloadlink findet ihr hier) muss der Datensatz noch bearbeitet werden, damit dieser vom Trainingsprogramm fehlerfrei erkannt wird. Dafür habe ich folgendes Programm geschrieben, welches störende Datein löscht und die Ordner richtig umbenennt:
 ```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+
 ```
-![Vorbereitung_Datensatz.py](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Programme/Vorbereitung_Datensatz.py)
+
 
 # Training
 Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Die richtigen Labels zu den Trainingbilder werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
