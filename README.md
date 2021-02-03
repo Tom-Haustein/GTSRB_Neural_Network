@@ -11,22 +11,6 @@ Als Datensatz habe ich den GTSRB-Datensatz des Instituts für Neuroinformatik de
 # Vorbereitung
 Nach dem Download und entzippen des Datensatz (offizieller Downloadlink findet ihr hier) muss der Datensatz noch bearbeitet werden, damit dieser vom Trainingsprogramm fehlerfrei erkannt wird. Dafür habe ich folgendes Programm geschrieben, welches störende Datein löscht und die Ordner richtig umbenennt:
 
-import os
-pfad="GTSRB/Final_Training/Images/"
-for ordner in os.listdir(pfad):
-    ordnername = int(ordner)
-    ordnername = str(ordnername)
-    if (ordnername != ordner):
-        os.rename(pfad + ordner,pfad + ordnername)
-for i in range(0,43):
-    n = str(i)
-    subpfad = os.path.join(pfad, n)
-    for datei in os.listdir(subpfad):
-        if not datei.endswith('.csv'):
-            continue
-        datei_mit_pfad = os.path.join(subpfad,datei)
-        os.remove(datei_mit_pfad)
-        
 # Training
 Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Die richtigen Labels zu den Trainingbilder werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
 
