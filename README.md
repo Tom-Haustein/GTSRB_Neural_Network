@@ -79,7 +79,7 @@ Trainingsbilder = Trainingsbilder.reshape(-1, 32, 32, 3)
 Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
 Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
 ```
-Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer csv-Datei geladen. Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den Testdatensatz und keinen Validiation Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Das CNN darf mit dem Testdatensatz auf keinen Fall trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
+Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer csv-Datei geladen. Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den Testdatensatz und keinen Validiation-Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Bei einem Validiation-Datensatz wird ein Teil des Trainingsdatensatzes abgesplittet und als Testdatensatz behandelt. Dies macht aber hier einen relativ großen Unterschied, da der Testdatensatz deutlich schwieriger zu erkennende Bilder enthält und zudem mehrere Bilder von gleichen Verkehrsschildern im Trainingsdatensatz enthalten sind. Für ein neuronales Netz ist es kein Problem ein Bild von einem Verkehrsschild richtig zu klassifzieren, welches es fast identisch schon einmal gelernt hat. Ein Verkehrsschild richtig zu klassifzieren, welches es zuvor noch nie gesehen hat, ist deutlich schwieriger. Das CNN darf mit dem Testdatensatz auf keinen Fall trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
 ```ruby
 Testbilder = []
 Testlabels = []
@@ -113,7 +113,7 @@ Testbilder = Testbilder/255
 Testbilder = np.asarray(Testbilder, dtype = "float32")
 Testlabels = np.asarray(Testlabels, dtype= "float32")
 ```
-Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neuronales Netz zu basteln und dieses dann zu trainieren. Den genutzten Aufbau und die Hyperparamteter, wie Optimizer usw. habe ich durch viele Versuchsreihen ermittelt. Das heißt, dass dieser Aufbau zwar gut funktioniert, es aber auch deutlich bessere Hyperparameterwahlen geben könnte. Leider wären unzählige Versuche nötig, um die optimale Kombination aus diesen zu finden. Wie ich zu einigen Teilen des Netzaufbaus durch Versuchsreihen gelangt bin, könnt ihr in der [PDF](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf) nachlesen. Insagesamt wurden in dem ganzen Projekt rund 45000 Messdaten genommen. Dazu habe ich die Messwerte aus jeder Epoche in eine csv-Datei geschrieben und diese Daten anschließend ausgewertet. Ein solches Programm findet ihr unter Trainingsprogramm_mit_messdaten.py. Zurück zum eigentlichen Trainingsprogramm. Den Rest des Trainingsprogrammes könnt ihr hier sehen:  
+Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neuronales Netz zu basteln und dieses dann zu trainieren. Den genutzten Aufbau und die Hyperparameter, wie Optimizer usw. habe ich durch viele Versuchsreihen ermittelt. Das heißt, dass dieser Aufbau zwar gut funktioniert, es aber auch deutlich bessere Hyperparameterwahlen geben könnte. Leider wären unzählige Versuche nötig, um die optimale Kombination aus diesen zu finden. Wie ich zu einigen Teilen des Netzaufbaus durch Versuchsreihen gelangt bin, könnt ihr in der [PDF](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf) nachlesen. Insagesamt wurden in dem ganzen Projekt rund 45000 Messdaten genommen. Dazu habe ich die Messwerte aus jeder Epoche in eine csv-Datei geschrieben und diese Daten anschließend ausgewertet. Ein solches Programm findet ihr unter Trainingsprogramm_mit_messdaten.py. Zurück zum eigentlichen Trainingsprogramm. Den Rest des Trainingsprogrammes könnt ihr hier sehen:  
 ```ruby
 #Zusammenstellen des Neuronalen Netzes
 #zuerst Zusammenstellen der Filter mit Batchnormalisierung (3 Convolutional Filter, 2 Pooling Filter)
@@ -176,7 +176,7 @@ for i in range(Epochen):
 Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht wie folgt aus:
 
 
-Mit diesem Trainingprogramm erreichte im bereits ein Netz mit einer Genauigkeit von 98,8 % im Testdatensatz. Nun wollte ich explizit dieses trainierte Netz weiter tranieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
+Mit diesem Trainingprogramm erreichte im bereits ein Netz mit einer Genauigkeit von 98,8 % im Testdatensatz. Nun wollte ich explizit dieses trainierte Netz weiter trainieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
 
 # Finetuning
 Meine Idee dazu war, dieses gespeicherte Model zu laden und zu trainieren bis es eine bestimmte Genauigkeit erreichte. Wenn dieses in einer bestimmten Epochenzahl diese nicht erreichte, wurde das neu trainierte Netz verworfen und das alte wieder geladen und neu trainiert. Dazu habe ich ein paar Hyperparamter verändert, zum Beispiel habe ich nun den Optimizer Adamax genutzt, da dieser für filigraneres Training besser geignet war und habe auch die Batchsize auf 64 erhöht. Den vollständigen Programmcode dazu könnt ihr hier sehen:
@@ -292,7 +292,7 @@ Durch immer leicht zufällige Ergebnisse ist diese Art des Trainings auch  gut u
 # Test auf eigene Bilder
 Nun hatte ich ein fertiges neuronalen Netz mit einer hohen Genauigkeit, da wollte ich auch testen, wie gut es tatsächlich ist. Dafür habe ich zehn Bilder von eigenen Verkehrsschildern aufgenommen. Aber gewöhnliche Verkehrsschilder wären ja viel zu langweilig. Deshalb habe ich besondere Verkehrsschilder fotografiert, die besonders schwer zu erkennen sind und stark von von den Trainingsbildern abweichen. Diese sahen dann beispielsweise so aus:
 
-Im Ordner "eigene Bilder" findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir die Bilder klassifiziert. Dieses sieht dann wie folgt aus:
+Im Ordner [eigene_Bilder](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/tree/main/eigene_Bilder) findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir die Bilder klassifiziert. Dieses sieht dann wie folgt aus:
 ```ruby
 #Importieren aller Bibliotheken
 import tensorflow as tf 
