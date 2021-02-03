@@ -19,6 +19,7 @@ Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neu
 
 Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht wie folgt aus:
 
+
 Mit diesem Trainingprogramm erreichte im bereits ein Netz mit einer Genauigkeit von 98,8 % im Testdatensatz. Nun wollte ich explizit dieses trainierte Netz weiter tranieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
 
 # Finetuning
@@ -31,3 +32,12 @@ Nun hatte ich ein fertiges neuronalen Netz mit einer hohen Genauigkeit, da wollt
 
 Im Ordner "eigene Bilder" findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir die Bilder klassifiziert. Dieses sieht dann wie folgt aus:
 
+Dabei konnte mein trainiertes neuronales Netz alle dieser 10 Testbilder fehlerfrei richtig klassifizieren und konnte somit auch außerhalb des Testdatensatzes zeigen, dass Verkehrsschilder richtig klassifziert. 
+
+# Live Verarbeitung
+Damit ein neuronales Netz auch im Straßenverkehr eingesetzt werden könnte, muss es dauerhaft Verkehrsschilder klassifizieren. Aus dieser Intention heraus habe ich noch ein Programm geschrieben, mit welchem man das neuronale Netz in einer Live-Performance testen kann. Dabei liest es die Webcam des Computers aus und schickt diese Bilder in das neuronale Netz. Das Programm dazu sieht so aus:
+
+Dabei brauchte das neuronale Netz eine durchschnittliche Klassifikationszeit von 37,7 ms vom Eingang des Bildes von der Webcam bis zur Klassifikation. Um die Ergebnisse optisch etwas ansprechend zu machen, habe ich es so geschrieben, dass man gleichzeitig 3 Bildfenster sehen kann. Auf der linken Seite sieht man die Bilder, welche die Webcam liefert. Auf der oberen rechten Seite sieht man, wie das erkannte Verkehrsschild aussieht (sodass man vergleichen kann) und direkt darunter werden Verkehrsschildname und Wahrscheinlichkeit angezeigt:
+
+# Schluss
+Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neuronalen Netze etwas erleichtern und ich hoffe ihr konntet etwas aus meinem Projekt mitnehmen. Bei Fragen und Anregungen könnt ihr mir auch schreiben.
