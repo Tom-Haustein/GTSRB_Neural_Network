@@ -285,7 +285,7 @@ for a in range(10):
             print("NEUER BESTWERT !!!")
 ```
 Durch immer leicht zufällige Ergebnisse ist diese Art des Trainings auch  gut umsetzbar. So kam ich stufenweise auf immer höhere Ergebnisse. Erst erreichte ich 99 % Genauigkeit, dann 99,04 % und schlussendlich eine Genauigkeit von 99,105 % (damit ist es rund 0,3% besser in der Verkehrsschildklassifikation als ein Mensch und ein internationales Top-Ergebnis). Dieses Trainingergebnis sah dann wie folgt aus:
-![Trainingsergebnis.jpg](
+![Trainingsergebnis.jpg](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Bilder/top_result.JPG)
 
 # Test auf eigene Bilder
 Nun hatte ich ein fertiges neuronalen Netz mit einer hohen Genauigkeit, da wollte ich auch testen, wie gut es tatsächlich ist. Dafür habe ich zehn Bilder von eigenen Verkehrsschildern aufgenommen. Aber gewöhnliche Verkehrsschilder wären ja viel zu langweilig. Deshalb habe ich besondere Verkehrsschilder fotografiert, die besonders schwer zu erkennen sind und stark von von den Trainingsbildern abweichen. Diese sahen dann beispielsweise so aus:
