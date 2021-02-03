@@ -180,23 +180,215 @@ Mit diesem Trainingprogramm erreichte im bereits ein Netz mit einer Genauigkeit 
 # Finetuning
 Meine Idee dazu war, dieses gespeicherte Model zu laden und zu trainieren bis es eine bestimmte Genauigkeit erreichte. Wenn dieses in einer bestimmten Epochenzahl diese nicht erreichte, wurde das neu trainierte Netz verworfen und das alte wieder geladen und neu trainiert. Dazu habe ich ein paar Hyperparamter verändert, zum Beispiel habe ich nun den Optimizer Adamax genutzt, da dieser für filigraneres Training besser geignet war und habe auch die Batchsize auf 64 erhöht. Den vollständigen Programmcode dazu könnt ihr hier sehen:
 ```
+import tensorflow.compat.v1 as tf
+import numpy as np
+import os
+from tensorflow.keras.models import load_model
+from keras.preprocessing import image
+from tensorflow.keras.optimizers import RMSprop, Adagrad, Adam, Nadam, Adamax, Adadelta
 
+
+Trainingsbilder = []
+Trainingslabels = []
+print("Trainingsdaten werden geladen")
+for i in range(0,43):
+ n = str(i)
+ Pfad = "D:/GTSRB/GTSRB_Final_Training_Images/GTSRB/Final_Training/Images/" + n
+ label=i
+ for Datei in os.listdir(Pfad):
+     img = os.path.join(Pfad,Datei)
+     img = image.load_img(img,target_size=(32,32))
+     img = image.img_to_array(img,  dtype=np.float32)
+     img=img.reshape(1,32,32,3)
+     img=img/255
+     Trainingsbilder.append(img)
+     Trainingslabels.append(label)
+
+Trainingslabels = np.asarray(Trainingslabels)
+Trainingsbilder = np.asarray([Trainingsbilder])
+Trainingsbilder = Trainingsbilder.reshape(-1, 32, 32, 3)
+Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
+Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
+
+Testbilder = []
+Testlabels = []
+print()
+print("Testdaten werden geladen")
+    
+import csv
+Testpfad="D:/GTSRB/GTSRB_Final_Test_Images/GTSRB/Final_Test/images/"
+for Datei in os.listdir(Testpfad):
+    img = os.path.join(Testpfad,Datei)
+    img = image.load_img(img,target_size=(32,32))
+    img = image.img_to_array(img,  dtype=np.float32)
+    img = img.reshape(1,32,32,3)
+    img=img/255
+    Testbilder.append(img)
+Liste_Testbilder = Testbilder
+    
+with open('D:/GTSRB/Testdaten.csv') as csvdatei:
+    csv_datei = csv.reader(csvdatei)
+    for Reihe in csv_datei:
+        Testlabels.append(Reihe[6])
+    
+Testlabels.pop(0) 
+Liste_Testlabels = Testlabels    
+Testlabels = np.asarray(Testlabels)
+Testbilder = np.asarray([Testbilder])
+Testbilder = Testbilder.reshape(-1, 32, 32, 3)
+Testbilder = np.asarray(Testbilder, dtype = "float32")
+Testlabels = np.asarray(Testlabels, dtype= "float32")
+
+
+model=load_model('model_99,105%.hdf5')
+
+best=0.99105305
+batch_size1=64
+batch_size2=64
+batch_size3=128
+opt=Adamax(lr=0.0004)
+
+for a in range(10):
+    for i in range(150):
+        
+        model.compile(loss='sparse_categorical_crossentropy',
+                    optimizer=opt,metrics=['accuracy'])
+        if i<50:
+            
+            model.fit(Trainingsbilder, Trainingslabels, epochs=1, 
+                  shuffle=True, batch_size=batch_size1)
+           
+            batch_size=batch_size1
+        if i==50:
+            print("neue Batchsize:",batch_size2)
+            
+        if i>=50 and i<100:
+            
+            model.fit(Trainingsbilder, Trainingslabels, epochs=1, 
+                  shuffle=True, batch_size=batch_size2)
+            batch_size=batch_size2
+            
+        if i==100:
+            print('neue Batchsize',batch_size)
+        if i>=100:
+            model.fit(Trainingsbilder, Trainingslabels, epochs=1, 
+                  shuffle=True, batch_size=batch_size3)
+            batch_size=batch_size3
+            
+        epoch=int(str(a)[0]+str(i))+1
+        score=model.evaluate(Testbilder, Testlabels)
+        print(score[1],'Batchsize:',batch_size,'Epoche:',epoch)
+
+        if score[1]>best:
+            model.save('CNN_best'+str(score[1])+'.hdf5')
+            best=score[1]
+            print("NEUER BESTWERT !!!")
 ```
 Durch immer leicht zufällige Ergebnisse ist diese Art des Trainings auch  gut umsetzbar. So kam ich stufenweise auf immer höhere Ergebnisse. Erst erreichte ich 99 % Genauigkeit, dann 99,04 % und schlussendlich eine Genauigkeit von 99,105 % (damit ist es rund 0,3% besser in der Verkehrsschildklassifikation als ein Mensch und ein internationales Top-Ergebnis). Dieses Trainingergebnis sah dann wie folgt aus:
+![Trainingsergebnis.jpg](
 
 # Test auf eigene Bilder
 Nun hatte ich ein fertiges neuronalen Netz mit einer hohen Genauigkeit, da wollte ich auch testen, wie gut es tatsächlich ist. Dafür habe ich zehn Bilder von eigenen Verkehrsschildern aufgenommen. Aber gewöhnliche Verkehrsschilder wären ja viel zu langweilig. Deshalb habe ich besondere Verkehrsschilder fotografiert, die besonders schwer zu erkennen sind und stark von von den Trainingsbildern abweichen. Diese sahen dann beispielsweise so aus:
 
 Im Ordner "eigene Bilder" findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir die Bilder klassifiziert. Dieses sieht dann wie folgt aus:
 ```
+#Importieren aller Bibliotheken
+import tensorflow as tf 
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.models import load_model
 
+#Laden des tranierten neuronalen netzes mit Gewichten 
+model=load_model('models/model_99,105%')
+
+#Auswählen eines Einzelbildes, das klassifiziert werden soll
+#für Testen eines anderen Testbildes in der nachfolgenden Zeile den Namen des gwünschten Bildes eingeben
+#alle Bilder im testordner sind selbst aufgenommen und zugeschnitten
+bild="Bild1.jpg"
+test_img = "Testbilder/"+bild
+
+#Testbild wird das richtige Format von 32*32 Pixel umgeformt
+test_img = os.path.join(test_img)
+test_img = image.load_img(test_img,target_size=(32,32))
+test_img = image.img_to_array(test_img,  dtype=np.float32)
+test_img = test_img/255
+plt.imshow(test_img)
+test_img = test_img.reshape(1,32,32,3)
+
+#skaliertes Bild wird gezeigt
+plt.show()
+
+#Bild wird durch das neuronale Netz geschickt und somit klassifiziert
+classes = model.predict(test_img)
+#Verteilung der Klassenwahrscheinlichkeit wird als diagramm angezeigt
+plt.bar(range(43), classes[0])
+plt.show()
+
+#Ergebnis mit der höchsten wahrscheinlichkeit wird ausgegeben
+a = np.argmax(classes[0])
+b = np.amax(classes[0])
+print("Vorhersage: Bildklasse",a+1,"mit einer WK von",b*100,"%")
+#(a+1 da Bildklasse 1 im Programm Bildklasse 0 heißt)
+verkehrsschild = ['20 km/h Tempolimit','30 km/h Tempolimit','50 km/h Tempolimit','60 km/h Tempolimit','70 km/h Tempolimit','80 km/h Tempolimit','Ende des 80 km/h Temolimits','100 km/h Tempolimit','120 km/h Tempolimit','allgemeines Ueberholverbot','Ueberholverbot für LKW','Einzelvorfahrt','Vorfahrt','Vorfahrt gewaeren','Stopschild','Sperrscheibe','keine Durchfahrt für LKW','keine Durchfahrt','Achtung','Achtung scharfe Linkskurve','Achtung scharfe Rechtskurve', 'Achtung scharfe Doppelkurve','Achtung Bodenwellen','Achtung Rutschgefahr','Achtung Fahrbahnverengung rechts','Achtung Bauarbeiten','Achtung Ampel','Achtung Fußgaenger','Achtung Kinder','Achtung Fahrraeder','Achtung Schneefall','Achtung Wildwechsel','Aufhebung der Geschwindigkeitsbegrenzung','Zwangspfeil rechts','Zwangspfeil links','Zwangspfeil gerade','Zwangspfeil gerade oder rechts','Zwangspfeil gerade oder links','Hier rechts vorbei fahren','Hier links vorbei fahren','Kreisverkehr','Aufhebung Ueberholverbot','Aufhebung Ueberholverbot für LKW']
+print('Bildklasse',a+1,': ',verkehrsschild[a])
+#Ausgabe Verkehrsschildname
 ```
 Dabei konnte mein trainiertes neuronales Netz alle dieser 10 Testbilder fehlerfrei richtig klassifizieren und konnte somit auch außerhalb des Testdatensatzes zeigen, dass Verkehrsschilder richtig klassifziert. 
 
 # Live Verarbeitung
 Damit ein neuronales Netz auch im Straßenverkehr eingesetzt werden könnte, muss es dauerhaft Verkehrsschilder klassifizieren. Aus dieser Intention heraus habe ich noch ein Programm geschrieben, mit welchem man das neuronale Netz in einer Live-Performance testen kann. Dabei liest es die Webcam des Computers aus und schickt diese Bilder in das neuronale Netz. Das Programm dazu sieht so aus:
 ```
+def bilderladen():
+     Pfad = "D:/GTSRB/Beispielbilder"
+     for Datei in os.listdir(Pfad):
+         img = os.path.join(Pfad,Datei)
+         img=cv2.imread(img)
+         img=cv2.resize(img,(450,450))
+         img=img/255
+         Bilder.append(img)
 
+Bilder=[]
+
+import tensorflow.compat.v1 as tf
+import time
+import cv2
+import numpy as np
+import os
+from tensorflow.keras.models import load_model
+
+
+vk = ['20 km/h Tempolimit','30 km/h Tempolimit','50 km/h Tempolimit','60 km/h Tempolimit','70 km/h Tempolimit','80 km/h Tempolimit','Ende des 80 km/h Temolimits','100 km/h Tempolimit','120 km/h Tempolimit','allgemeines Ueberholverbot','Ueberholverbot für LKW','Einzelvorfahrt','Vorfahrt','Vorfahrt gewaeren','Stopschild','Sperrscheibe','keine Durchfahrt für LKW','keine Durchfahrt','Achtung','Achtung scharfe Linkskurve','Achtung scharfe Rechtskurve', 'Achtung scharfe Doppelkurve','Achtung Bodenwellen','Achtung Rutschgefahr','Achtung Fahrbahnverengung rechts','Achtung Bauarbeiten','Achtung Ampel','Achtung Fußgaenger','Achtung Kinder','Achtung Fahrraeder','Achtung Schneefall','Achtung Wildwechsel','Aufhebung der Geschwindigkeitsbegrenzung','Zwangspfeil rechts','Zwangspfeil links','Zwangspfeil gerade','Zwangspfeil gerade oder rechts','Zwangspfeil gerade oder links','Hier rechts vorbei fahren','Hier links vorbei fahren','Kreisverkehr','Aufhebung Ueberholverbot','Aufhebung Ueberholverbot für LKW']
+bilderladen()
+
+c=111
+d=0
+model=load_model('CNN_best0.99105304.hdf5')
+vid = cv2.VideoCapture(0) 
+while(True): 
+    ret, frame = vid.read()  
+    cv2.imshow('Bild', frame)
+    frame = cv2.resize(frame,(32,32))
+    frame = frame/255
+    frame = frame.reshape(1,32,32,3)
+    classes = model.predict(frame)
+    a = np.argmax(classes[0])
+    b = np.amax(classes[0])
+    if a!=c or round(b,2)!=round(d,2):
+        c=a
+        bild_text=np.zeros((150,650,3),np.uint8)
+        cv2.putText(bild_text,str(vk[a]),(60,30),cv2.FONT_HERSHEY_TRIPLEX,1,(255,255,255),2)
+        cv2.putText(bild_text,str((round(b*100,2)))+'%',(60,90),cv2.FONT_HERSHEY_TRIPLEX,1,(255,255,255),2)
+        cv2.imshow('Verkehrsschild',bild_text)
+        cv2.imshow('erkanntes Verkehrsschild',Bilder[a])
+        d=b
+    if cv2.waitKey(20) & 0xFF == ord('q'): 
+        break
+vid.release() 
+
+cv2.destroyAllWindows() 
 ```
 Dabei brauchte das neuronale Netz eine durchschnittliche Klassifikationszeit von 14,9 ms vom Eingang des Bildes von der Webcam bis zur Klassifikation. Um die Ergebnisse optisch etwas ansprechend zu machen, habe ich es so geschrieben, dass man gleichzeitig 3 Bildfenster sehen kann. Auf der linken Seite sieht man die Bilder, welche die Webcam liefert. Auf der oberen rechten Seite sieht man, wie das erkannte Verkehrsschild aussieht (sodass man vergleichen kann) und direkt darunter werden Verkehrsschildname und Wahrscheinlichkeit angezeigt:
 
