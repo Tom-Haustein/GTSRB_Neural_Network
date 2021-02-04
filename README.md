@@ -428,4 +428,4 @@ Alex D. Pon, Oles Andrienko, Ali Harakeh, Steven L. Waslander (2018, 13.09.):
 „[A Hierarchical Deep Architecture and Mini-Batch Selection Method For Joint Traffic Sign and Light
 Detection](https://arxiv.org/pdf/1806.07987v2.pdf)“
 
-Mrinal Haloi (2016, 17.07.): „[Traffic Sign Classification Using Deep Inception Based Convolutional Networks](https://arxiv.org/pdf/1511.02992v2.pdf)“
+Haloi, Mrinal (2016, 17.07.): „[Traffic Sign Classification Using Deep Inception Based Convolutional Networks](https://arxiv.org/pdf/1511.02992v2.pdf)“
