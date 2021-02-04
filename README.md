@@ -410,7 +410,7 @@ Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neur
 # ähnliche oder weiterführende Projekte/Paper
 
 Nguyen, Hoanh (2020,19.06.): „[Fast Traffic Sign Detection Approach Based on Lightweight Network and
-Multilayer Proposal Network](https://downloads.hindawi.com/journals/js/2020/8844348.pd)“
+Multilayer Proposal Network](https://downloads.hindawi.com/journals/js/2020/8844348.pdf)“
 
 Wasif Arman Haque, Samin Arefin, A.S.M. Shihavuddin, Muhammad Abul Hasan (2020,09.12.): „[DeepThin: A
 novel lightweight CNN architecture for traffic sign recognition without GPU requirements](https://scihub.st/10.1016/j.eswa.2020.114481)“
