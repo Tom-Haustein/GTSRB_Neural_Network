@@ -6,7 +6,7 @@ Alles Programmcodes usw. findet ihr im weiteren hier. Das trainierte Model mit A
 
 
 # Umsetzung
-Um das Ziel einer Verkehrsschilderkennung durch ein neuronales Netzwerk umzusetzen, habe ich in meinem Projekt die Bibliothek Tensorflow und Keras sowie einige weitere in Python genutzt. Wie Tensorflow genutzt und installiert wird, findet ihr hier.
+Um das Ziel einer Verkehrsschilderkennung durch ein neuronales Netzwerk umzusetzen, habe ich in meinem Projekt die Bibliothek Tensorflow und Keras sowie einige weitere Bibliotheken in Python genutzt. Wie Tensorflow genutzt und installiert wird, findet ihr hier.
 Als Datensatz habe ich den [GTSRB-Datensatz](https://benchmark.ini.rub.de/gtsrb_news.html) des Instituts für Neuroinformatik der TU Bochum genutzt. Dieser enthält rund 39000 Bilder im Testdatensatz. Eine ausführliche Analyse des Trainiungs- und Testdatensatzes findet ihr in der schriftlichen PDF-Datei, sowie alle Versuche zum Aufbau des CNN.
 
 # Vorbereitung
