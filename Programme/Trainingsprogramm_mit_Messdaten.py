@@ -130,7 +130,7 @@ for i in range(Epochen):
     #aus den Ergebnissen wird eine Genauigkeit im Testdatensatz errechnet, sowie ein durchschnittlicher Verlust
     score=model.evaluate(Testbilder, Testlabels)
     
-    #in die csv_Datei wird nun Epoche, Genaugikeit und Verlust geschrieben, sodass man diese später auswerten kann
+    #in die csv-Datei wird nun Epoche, Genauigkeit und Verlust geschrieben, sodass man diese später auswerten kann
     with open('Messdaten.csv', mode='a') as data_file:
         data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         data_writer.writerow(['Epoche:',i])
