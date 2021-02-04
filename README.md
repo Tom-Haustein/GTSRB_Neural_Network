@@ -416,8 +416,7 @@ Wasif Arman Haque, Samin Arefin, A.S.M. Shihavuddin, Muhammad Abul Hasan (2020,0
 novel lightweight CNN architecture for traffic sign recognition without GPU requirements](https://scihub.st/10.1016/j.eswa.2020.114481)“
 
 Alvaro Arcos-García, Juan A. Alvarez-García, Luis M. Soria-Morillo (2017,25.07.): „[Deep Neural Network for
-Trac Sign Recognition Systems: An analysis of Spatial Transformers and Stochastic Optimization Methods](https://idus.us.es/bitstream/handle/11441/80679/NEUNET-D-17-
-00381.pdf;jsessionid=C17E132C16F755D73EAB35D11566DDB7?sequence=1)“
+Traffic Sign Recognition Systems: An analysis of Spatial Transformers and Stochastic Optimization Methods](https://idus.us.es/bitstream/handle/11441/80679/NEUNET-D-17-00381.pdf)“
 
 Dan Ciresan¸ Ueli Meier, Jürgen Schmidhuber (2012, 13.02.): „[Multi-column Deep Neural Networks for Image
 Classification](https://arxiv.org/pdf/1202.2745v1.pdf)“
