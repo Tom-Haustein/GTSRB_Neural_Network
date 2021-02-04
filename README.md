@@ -31,7 +31,7 @@ for i in range(0,43):
 
 
 # Training
-Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Ich habe dabei eine Bildgröße von 32x32 Pixel gewählt, in die alle Bilder skaliert werden. Die richtigen Labels zu den Trainingbilder werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
+Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Ich habe dabei eine Bildgröße von 32x32 Pixel gewählt, in die alle Bilder skaliert werden. Die richtigen Labels zu den Trainingsbildern werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
 ```ruby
 #importieren aller notwenigen Bibliotheken
 import tensorflow.compat.v1 as tf
