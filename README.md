@@ -413,7 +413,7 @@ Nguyen, Hoanh (2020,19.06.): „[Fast Traffic Sign Detection Approach Based on L
 Multilayer Proposal Network](https://downloads.hindawi.com/journals/js/2020/8844348.pdf)“
 
 Wasif Arman Haque, Samin Arefin, A.S.M. Shihavuddin, Muhammad Abul Hasan (2020,09.12.): „[DeepThin: A
-novel lightweight CNN architecture for traffic sign recognition without GPU requirements](https://scihub.st/10.1016/j.eswa.2020.114481)“
+novel lightweight CNN architecture for traffic sign recognition without GPU requirements](https://www.sciencedirect.com/science/article/abs/pii/S0957417420311283)“
 
 Alvaro Arcos-García, Juan A. Alvarez-García, Luis M. Soria-Morillo (2017,25.07.): „[Deep Neural Network for
 Traffic Sign Recognition Systems: An analysis of Spatial Transformers and Stochastic Optimization Methods](https://idus.us.es/bitstream/handle/11441/80679/NEUNET-D-17-00381.pdf)“
