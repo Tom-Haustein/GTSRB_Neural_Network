@@ -2,15 +2,15 @@
 This project is also available in English. You can find the link [here](https://github.com/Tom-Haustein/GTSRB_Top-Result). (It's not done yet)
 
 Dieses Projekt beschäftigt sich mit der Entwicklung eines flachen CNN zur Erkennung von Verkehrsschildern. Das Projekt in Schriftform mit deutlich mehr Details, Versuchen und Erklärungen findet ihr als PDF unter ![Projekt](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf).
-Alles Programmcodes usw. findet ihr im weiteren hier. Das trainierte Model mit Aufbau und Gewichtungen findet ihr hier: ![model](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/models/model_99%2C105%25.hdf5)
+Alles Programmcodes usw. findet ihr im weiteren [hier](https://www.datacamp.com/community/tutorials/tensorflow-tutorial). Das trainierte Model mit Aufbau und Gewichtungen findet ihr hier: ![model](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/models/model_99%2C105%25.hdf5)
 
 
 # Umsetzung
 Um das Ziel einer Verkehrsschilderkennung durch ein neuronales Netzwerk umzusetzen, habe ich in meinem Projekt die Bibliothek Tensorflow und Keras sowie einige weitere Bibliotheken in Python genutzt. Wie Tensorflow genutzt und installiert wird, findet ihr hier.
-Als Datensatz habe ich den [GTSRB-Datensatz](https://benchmark.ini.rub.de/gtsrb_news.html) des Instituts für Neuroinformatik der TU Bochum genutzt. Dieser enthält rund 39000 Bilder im Testdatensatz. Eine ausführliche Analyse des Trainiungs- und Testdatensatzes findet ihr in der schriftlichen PDF-Datei, sowie alle Versuche zum Aufbau des CNN.
+Als Datensatz habe ich den [GTSRB-Datensatz](https://benchmark.ini.rub.de/gtsrb_news.html) des Instituts für Neuroinformatik der TU Bochum genutzt. Dieser enthält rund 39000 Bilder im Trainingsdatensatz. Eine ausführliche Analyse des Trainings- und Testdatensatzes findet ihr in der [schriftlichen PDF-Datei](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf), sowie alle Versuche zum Aufbau des CNN.
 
 # Vorbereitung
-Nach dem Download und entzippen des Datensatz [Downloadlink findet ihr hier](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html) muss der Datensatz noch bearbeitet werden, damit dieser vom Trainingsprogramm fehlerfrei erkannt wird. Dafür habe ich folgendes Programm geschrieben, welches störende Datein löscht und die Ordner richtig umbenennt:
+Nach dem Download und entzippen des Datensatz ([Downloadlink findet ihr hier](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html)) muss der Datensatz noch bearbeitet werden, damit dieser vom Trainingsprogramm fehlerfrei erkannt wird. Dafür habe ich folgendes Programm geschrieben, welches störende Datein löscht und die Ordner richtig umbenennt:
 ```ruby
 import os
 pfad="GTSRB/Final_Training/Images/"
@@ -31,7 +31,7 @@ for i in range(0,43):
 
 
 # Training
-Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Ich habe dabei eine Bildergröße von 32x32 Pixel gewählt, in die alle Bilder skaliert werden. Die richtigen Labels zu den Trainingbilder werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
+Damit Bilder von einem neuronalen Netz gelernt werden können, müssen diese noch bearbeitet werden. Dazu müssen sie alle in die gleiche Bildgröße gebracht und anschließend als Tensor in den RAM geladen geladen werden. Ich habe dabei eine Bildgröße von 32x32 Pixel gewählt, in die alle Bilder skaliert werden. Die richtigen Labels zu den Trainingbilder werden aus den Ordnernamen entnommen und ebenfalls als Tensor geladen. Dies habe ich so umgesetzt:
 ```ruby
 #importieren aller notwenigen Bibliotheken
 import tensorflow.compat.v1 as tf
@@ -77,7 +77,7 @@ Trainingsbilder = Trainingsbilder/255
 Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
 Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
 ```
-Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer csv-Datei geladen. Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den Testdatensatz und keinen Validation-Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Bei einem Validation-Datensatz wird ein Teil des Trainingsdatensatzes abgesplittet und als Testdatensatz behandelt. Dies macht aber hier einen relativ großen Unterschied, da der Testdatensatz deutlich schwieriger zu erkennende Bilder enthält und zudem mehrere Bilder von gleichen Verkehrsschildern im Trainingsdatensatz enthalten sind. Für ein neuronales Netz ist es kein Problem ein Bild von einem Verkehrsschild richtig zu klassifzieren, welches es fast identisch schon einmal gelernt hat. Ein Verkehrsschild richtig zu klassifzieren, welches es zuvor noch nie gesehen hat, ist deutlich schwieriger. Das CNN darf mit dem Testdatensatz auf keinen Fall trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
+Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer [csv-Datei geladen](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Testdaten.csv). Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den offiziellen Testdatensatz und keinen Validation-Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Bei einem Validation-Datensatz wird ein Teil des Trainingsdatensatzes abgesplittet und als Testdatensatz genutzt. Dies macht aber hier einen relativ großen Unterschied, da der Testdatensatz deutlich schwieriger zu erkennende Bilder enthält und zudem im Trainingsdatensatz mehrere Bilder von gleichen Verkehrsschildern enthalten sind. Für ein neuronales Netz ist es kein Problem ein Bild von einem Verkehrsschild richtig zu klassifzieren, welches es fast identisch schon einmal gelernt hat. Ein Verkehrsschild richtig zu klassifzieren, welches es zuvor noch nie gesehen hat, ist deutlich schwieriger. Das CNN darf mit dem Testdatensatz auf keinen Fall trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
 
 ```ruby
 Testbilder = []
@@ -111,7 +111,8 @@ Testbilder = Testbilder/255
 Testbilder = np.asarray(Testbilder, dtype = "float32")
 Testlabels = np.asarray(Testlabels, dtype= "float32")
 ```
-Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neuronales Netz zu basteln und dieses dann zu trainieren. Den genutzten Aufbau und die Hyperparameter, wie Optimizer usw. habe ich durch viele Versuchsreihen ermittelt. Das heißt, dass dieser Aufbau zwar gut funktioniert, es aber auch deutlich bessere Hyperparameterwahlen geben könnte. Leider wären unzählige Versuche nötig, um die optimale Kombination aus diesen zu finden. Wie ich zu einigen Teilen des Netzaufbaus durch Versuchsreihen gelangt bin, könnt ihr in der [PDF](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf) nachlesen. Insagesamt wurden in dem ganzen Projekt rund 45000 Messdaten genommen. Dazu habe ich die Messwerte aus jeder Epoche in eine csv-Datei geschrieben und diese Daten anschließend ausgewertet. Ein solches Programm findet ihr unter Trainingsprogramm_mit_messdaten.py. Zurück zum eigentlichen Trainingsprogramm. Den Rest des Trainingsprogrammes könnt ihr hier sehen:  
+Da alle Trainings- und Testbilder nun geladen sind, geht es nun daran, unser neuronales Netz zu basteln und dieses dann zu trainieren. Den genutzten Aufbau und die Hyperparameter, wie Optimizer usw. habe ich durch viele Versuchsreihen ermittelt. Das heißt, dass dieser Aufbau zwar gut funktioniert, es aber auch deutlich bessere Hyperparameterwahlen geben könnte. Leider wären unzählige Versuche nötig, um die optimale Kombination aus diesen zu finden. Wie ich zu einigen Teilen des Netzaufbaus durch Versuchsreihen gelangt bin, könnt ihr in der [PDF](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf) nachlesen. Insagesamt wurden in dem ganzen Projekt rund 45000 Messdaten genommen. Dazu habe ich die Messwerte aus jeder Epoche in eine csv-Datei geschrieben und diese Daten anschließend ausgewertet. Ein solches Programm, in dem Messdaten notiert werden, findet ihr unter [Trainingsprogramm_mit_Messdaten.py](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Programme/Trainingsprogramm_mit_Messdaten.py). Zurück zum eigentlichen Trainingsprogramm. Den Rest des Trainingsprogrammes könnt ihr hier sehen:  
+
 ```ruby
 #Zusammenstellen des Neuronalen Netzes
 #zuerst Zusammenstellen der Filter mit Batchnormalisierung (3 Convolutional Filter, 2 Pooling Filter)
@@ -175,10 +176,11 @@ Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, 
 
 ![Training.jpg](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Bilder/Training.JPG)
 
-Mit diesem Trainingprogramm erreichte das Netz eine Genauigkeit von 98,8 % im Testdatensatz nach 57 Epochen Training. Nun wollte ich explizit dieses trainierte Netz weiter trainieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
+Mit diesem Trainingsprogramm erreichte das Netz eine Genauigkeit von 98,8 % im Testdatensatz nach 57 Epochen Training. Nun wollte ich explizit dieses trainierte Netz weiter trainieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
 
 # Finetuning
-Meine Idee dazu war, dieses gespeicherte Model zu laden und zu trainieren bis es eine bestimmte Genauigkeit erreichte. Wenn dieses in einer bestimmten Epochenzahl diese nicht erreichte, wurde das neu trainierte Netz verworfen und das alte wieder geladen und neu trainiert. Dazu habe ich ein paar Hyperparamter verändert, zum Beispiel habe ich nun den Optimizer Adamax genutzt, da dieser für filigraneres Training besser geignet war und habe auch die Batchsize auf 64 erhöht. Den vollständigen Programmcode dazu könnt ihr hier sehen:
+Meine Idee dazu war, dieses gespeicherte Model zu laden und zu trainieren bis es eine bestimmte Genauigkeit erreichte. Wenn dieses in einer bestimmten Epochenzahl diese nicht erreichte, wurde das neu trainierte Netz verworfen, das alte wieder geladen und neu trainiert. Dazu habe ich ein paar Hyperparamter verändert, zum Beispiel habe ich nun den Optimizer Adamax genutzt, da dieser für filigraneres Training besser geignet war und habe auch die Batchsize auf 64 erhöht. Den vollständigen Programmcode dazu könnt ihr hier sehen:
+
 ```ruby
 import tensorflow.compat.v1 as tf
 import numpy as np
@@ -289,11 +291,12 @@ Durch immer leicht zufällige Ergebnisse ist diese Art des Trainings auch  gut u
 ![Trainingsergebnis.jpg](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Bilder/top_result.JPG)
 
 # Test auf eigene Bilder
-Nun hatte ich ein fertiges neuronalen Netz mit einer hohen Genauigkeit, da wollte ich auch testen, wie gut es tatsächlich ist. Dafür habe ich zehn Bilder von eigenen Verkehrsschildern aufgenommen. Aber gewöhnliche Verkehrsschilder wären ja viel zu langweilig. Deshalb habe ich besondere Verkehrsschilder fotografiert, die besonders schwer zu erkennen sind und stark von von den Trainingsbildern abweichen. Diese sahen dann beispielsweise so aus:
+Nun hatte ich ein trainiertes neuronales Netz mit einer hohen Genauigkeit, da wollte ich auch testen, wie gut es tatsächlich ist. Dafür habe ich zehn Bilder von eigenen Verkehrsschildern aufgenommen. Aber gewöhnliche Verkehrsschilder wären ja viel zu langweilig. Deshalb habe ich besondere Verkehrsschilder fotografiert, die besonders schwer zu erkennen sind und stark von den Trainingsbildern abweichen. Diese sahen dann beispielsweise so aus:
 
 ![Bild4.jpg](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/eigene_Bilder/Bild4.jpg)
 
-Im Ordner [eigene_Bilder](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/tree/main/eigene_Bilder) findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir die Bilder klassifiziert. Dieses sieht dann wie folgt aus:
+Im Ordner [eigene_Bilder](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/tree/main/eigene_Bilder) findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir einzelne Bilder klassifiziert. Dieses sieht dann wie folgt aus:
+
 ```ruby
 #Importieren aller Bibliotheken
 import tensorflow as tf 
@@ -343,6 +346,7 @@ Dabei konnte mein trainiertes neuronales Netz alle dieser 10 Testbilder fehlerfr
 
 # Live Verarbeitung
 Damit ein neuronales Netz auch im Straßenverkehr eingesetzt werden könnte, muss es dauerhaft Verkehrsschilder klassifizieren. Aus dieser Intention heraus habe ich noch ein Programm geschrieben, mit welchem man das neuronale Netz in einer Live-Performance testen kann. Dabei liest es die Webcam des Computers aus und schickt diese Bilder in das neuronale Netz. Das Programm dazu sieht so aus:
+
 ```ruby
 def bilderladen():
      Pfad = "D:/GTSRB/Beispielbilder"
@@ -393,11 +397,12 @@ vid.release()
 
 cv2.destroyAllWindows() 
 ```
-Dabei brauchte das neuronale Netz eine durchschnittliche Klassifikationszeit von 14,9 ms (bei 6,2 TFLOPS Rechenleistung) vom Eingang des Bildes von der Webcam bis zur Klassifikation. Um die Ergebnisse optisch etwas ansprechend zu machen, habe ich es so geschrieben, dass man gleichzeitig 3 Bildfenster sehen kann. Auf der linken Seite sieht man die Bilder, welche die Webcam liefert. Auf der oberen rechten Seite sieht man, wie das erkannte Verkehrsschild aussieht (sodass man vergleichen kann) und direkt darunter werden Verkehrsschildname und Wahrscheinlichkeit angezeigt:
+Dabei brauchte das neuronale Netz eine durchschnittliche Klassifikationszeit von 14,9 ms (bei 6,2 TFLOPS Rechenleistung) vom Eingang des Bildes von der Webcam bis zur Klassifikation. Um die Ergebnisse optisch etwas ansprechend zu machen, habe ich es so geschrieben, dass man gleichzeitig 3 Bildfenster sehen kann. Auf der linken Seite sieht man die Bilder, welche die Webcam liefert. Auf der oberen rechten Seite sieht man, wie das erkannte Verkehrsschild aussieht (sodass man direkt mit dem Eingangsbild vergleichen kann) und direkt darunter werden Verkehrsschildname und Wahrscheinlichkeit angezeigt:
 
 ![Live_Programm.png](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Bilder/Live_Programm.png)
 
 Wie ihr in dem Bild erkennen könnt, habe ich einfach ein Verkehrsschild ausgedruckt und in die Kamera gehalten. Trotz dass das Verkehrsschild nur mit Verkehrsschildern aus dem Straßenverkehr trainiert wurde, erkennt es das ausgedruckte Bild einwandfrei. 
-Mit einer Verkehrsschilderkennung zusammen, könnte das Netz vermutlich im Straßenverkehr eingesetzt werden.
+Mit einer Verkehrsschilderkennung zusammen, könnte das Netz vermutlich im Straßenverkehr eingesetzt werden. Mit dem Ergebnis kann man durchaus sehr zufrieden sein, da es sich um ein wirklich einfaches CNN handelt. Mit Spatial Transformern können dann deutlich höhere Ergebnisse erzielt werden, dafür ist das Erstellen und Trainieren des Netzes deutlich schieriger.
+
 # Abschluss
-Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neuronalen Netze etwas erleichtern und ich hoffe ihr konntet etwas aus meinem Projekt mitnehmen. Bei Fragen und Anregungen könnt ihr mir auch schreiben. Lasst mir ruhig einen Stern da.
+Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neuronalen Netze etwas erleichtern und ich hoffe ihr konntet etwas aus meinem Projekt mitnehmen. Bei Fragen und Anregungen könnt ihr mir auch schreiben. Guckt auch gern bei meinen anderen Projekten vorbei.
