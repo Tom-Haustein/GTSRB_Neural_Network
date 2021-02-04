@@ -1,4 +1,4 @@
-# 99,1% im GTSRB-Testdatensatz mit Tensorflow durch ein flaches CNN
+# 99,11 % im GTSRB-Testdatensatz mit Tensorflow durch ein flaches CNN
 This project is also available in English. You can find the link [here](https://github.com/Tom-Haustein/GTSRB_Top-Result). (It's not done yet)
 
 Dieses Projekt beschäftigt sich mit der Entwicklung eines flachen CNN zur Erkennung von Verkehrsschildern. Das Projekt in Schriftform mit deutlich mehr Details, Versuchen und Erklärungen findet ihr als PDF unter ![Projekt](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf).
