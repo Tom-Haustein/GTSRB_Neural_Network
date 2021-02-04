@@ -60,8 +60,6 @@ for i in range(0,43):
      #Bilder werden auf die Größe 32*32 Pixel mit RGB skaliert, damit diese eine einheitliche Größe haben
      img = image.load_img(img,target_size=(32,32))
      img = image.img_to_array(img,  dtype=np.float32)
-     img=img/255
-     img=filter(img)
      img=img.reshape(1,32,32,3)
      Trainingsbilder.append(img)
      Trainingslabels.append(label)
@@ -75,7 +73,7 @@ Trainingslabels = np.asarray(Trainingslabels)
 Trainingsbilder = np.asarray([Trainingsbilder])
 Trainingsbilder = Trainingsbilder.reshape(-1, 32, 32, 3)
 #Umwandlung der Farbwerte in Gleitkommazahlen zwischen 0 und 1
-#Trainingsbilder = Trainingsbilder/255
+Trainingsbilder = Trainingsbilder/255
 Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
 Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
 ```
@@ -93,7 +91,6 @@ for Datei in os.listdir(Testpfad):
      #Umformung der Testbilder in die Größe 32*32 Pixel
      img = image.load_img(img,target_size=(32,32))
      img = image.img_to_array(img,  dtype=np.float32)
-     img = filter(img)
      img = img.reshape(1,32,32, 3)
      Testbilder.append(img)
 
@@ -173,10 +170,10 @@ for i in range(Epochen):
         model.save('model_'+str(score[1])+'.hdf5')
         print("gespeichert")
 ```
-Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht wie folgt aus:
+Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht in Anaconda Spyder, der Programmierumgebung die ich für das ganze Projekt genutzt habe, dann wie folgt aus:
 
-
-Mit diesem Trainingprogramm erreichte im bereits ein Netz mit einer Genauigkeit von 98,8 % im Testdatensatz. Nun wollte ich explizit dieses trainierte Netz weiter trainieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
+![Training.jpg](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Bilder/Training.JPG)
+Mit diesem Trainingprogramm erreichte das Netz eine Genauigkeit von 98,8 % im Testdatensatz nach 57 Epochen Training. Nun wollte ich explizit dieses trainierte Netz weiter trainieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
 
 # Finetuning
 Meine Idee dazu war, dieses gespeicherte Model zu laden und zu trainieren bis es eine bestimmte Genauigkeit erreichte. Wenn dieses in einer bestimmten Epochenzahl diese nicht erreichte, wurde das neu trainierte Netz verworfen und das alte wieder geladen und neu trainiert. Dazu habe ich ein paar Hyperparamter verändert, zum Beispiel habe ich nun den Optimizer Adamax genutzt, da dieser für filigraneres Training besser geignet war und habe auch die Batchsize auf 64 erhöht. Den vollständigen Programmcode dazu könnt ihr hier sehen:
@@ -292,6 +289,8 @@ Durch immer leicht zufällige Ergebnisse ist diese Art des Trainings auch  gut u
 # Test auf eigene Bilder
 Nun hatte ich ein fertiges neuronalen Netz mit einer hohen Genauigkeit, da wollte ich auch testen, wie gut es tatsächlich ist. Dafür habe ich zehn Bilder von eigenen Verkehrsschildern aufgenommen. Aber gewöhnliche Verkehrsschilder wären ja viel zu langweilig. Deshalb habe ich besondere Verkehrsschilder fotografiert, die besonders schwer zu erkennen sind und stark von von den Trainingsbildern abweichen. Diese sahen dann beispielsweise so aus:
 
+![Bild4.jpg](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/eigene_Bilder/Bild4.jpg)
+
 Im Ordner [eigene_Bilder](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/tree/main/eigene_Bilder) findet ihr diese 10 Testbilder. Um diese zu testen, musste ich aber noch ein neues, kleines Programm schreiben, welches mir die Bilder klassifiziert. Dieses sieht dann wie folgt aus:
 ```ruby
 #Importieren aller Bibliotheken
@@ -386,13 +385,14 @@ while(True):
         cv2.imshow('Verkehrsschild',bild_text)
         cv2.imshow('erkanntes Verkehrsschild',Bilder[a])
         d=b
-    if cv2.waitKey(20) & 0xFF == ord('q'): 
+    if cv2.waitKey(20) & 0xFF == ord('q'): #mit q könnt ihr das Programm beenden
         break
 vid.release() 
 
 cv2.destroyAllWindows() 
 ```
 Dabei brauchte das neuronale Netz eine durchschnittliche Klassifikationszeit von 14,9 ms (bei 6,2 TFLOPS Rechenleistung) vom Eingang des Bildes von der Webcam bis zur Klassifikation. Um die Ergebnisse optisch etwas ansprechend zu machen, habe ich es so geschrieben, dass man gleichzeitig 3 Bildfenster sehen kann. Auf der linken Seite sieht man die Bilder, welche die Webcam liefert. Auf der oberen rechten Seite sieht man, wie das erkannte Verkehrsschild aussieht (sodass man vergleichen kann) und direkt darunter werden Verkehrsschildname und Wahrscheinlichkeit angezeigt:
+
 
 # Abschluss
 Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neuronalen Netze etwas erleichtern und ich hoffe ihr konntet etwas aus meinem Projekt mitnehmen. Bei Fragen und Anregungen könnt ihr mir auch schreiben. Lasst mir ruhig einen Stern da.
