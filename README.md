@@ -173,6 +173,7 @@ for i in range(Epochen):
 Wie ihr vielleicht schon sehen konntet, wird dabei immer eine Epoche trainiert, dann im Testdatensatz getestet und wieder trainiert. Somit hat man alle Entwicklungen des Netzes im Blick. Falls eine Genauigkeit im Testdatensatz von über 99% erreicht wird, speichert das Programm das gesamte trainierte Netz als hdf5-Datei und trainiert anschließend weiter. Das Training sieht in Anaconda Spyder, der Programmierumgebung die ich für das ganze Projekt genutzt habe, dann wie folgt aus:
 
 ![Training.jpg](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Bilder/Training.JPG)
+
 Mit diesem Trainingprogramm erreichte das Netz eine Genauigkeit von 98,8 % im Testdatensatz nach 57 Epochen Training. Nun wollte ich explizit dieses trainierte Netz weiter trainieren, damit es sich noch weiter verbessert. Dafür habe ich ein zweites Programm zum Finetuning geschrieben.
 
 # Finetuning
