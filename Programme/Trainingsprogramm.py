@@ -17,7 +17,6 @@ Trainingsbilder = []
 Trainingslabels = []
 print("Trainingsdaten werden geladen")
 for i in range(0,43):
-    #print(i)
     n = str(i)
     Pfad = "GTSRB_Final_Training_Images/GTSRB/Final_Training/images/" + n
     label=i
@@ -26,11 +25,6 @@ for i in range(0,43):
      #Bilder werden auf die Größe 32*32 Pixel mit RGB skaliert, damit diese eine einheitliche Größe haben
      img = image.load_img(img,target_size=(32,32))
      img = image.img_to_array(img,  dtype=np.float32)
-     img=img/255
-     #print(Datei)
-     #print(img.shape)
-     img=filter(img)
-     #print(img.shape)
      img=img.reshape(1,32,32,3)
      Trainingsbilder.append(img)
      Trainingslabels.append(label)
@@ -44,7 +38,7 @@ Trainingslabels = np.asarray(Trainingslabels)
 Trainingsbilder = np.asarray([Trainingsbilder])
 Trainingsbilder = Trainingsbilder.reshape(-1, 32, 32, 3)
 #Umwandlung der Farbwerte in Gleitkommazahlen zwischen 0 und 1
-#Trainingsbilder = Trainingsbilder/255
+Trainingsbilder = Trainingsbilder/255
 Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
 Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
 
@@ -61,7 +55,6 @@ for Datei in os.listdir(Testpfad):
      #Umformung der Testbilder in die Größe 32*32 Pixel
      img = image.load_img(img,target_size=(32,32))
      img = image.img_to_array(img,  dtype=np.float32)
-     img = filter(img)
      img = img.reshape(1,32,32, 3)
      Testbilder.append(img)
 
