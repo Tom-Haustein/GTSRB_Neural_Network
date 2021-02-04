@@ -393,6 +393,9 @@ cv2.destroyAllWindows()
 ```
 Dabei brauchte das neuronale Netz eine durchschnittliche Klassifikationszeit von 14,9 ms (bei 6,2 TFLOPS Rechenleistung) vom Eingang des Bildes von der Webcam bis zur Klassifikation. Um die Ergebnisse optisch etwas ansprechend zu machen, habe ich es so geschrieben, dass man gleichzeitig 3 Bildfenster sehen kann. Auf der linken Seite sieht man die Bilder, welche die Webcam liefert. Auf der oberen rechten Seite sieht man, wie das erkannte Verkehrsschild aussieht (sodass man vergleichen kann) und direkt darunter werden Verkehrsschildname und Wahrscheinlichkeit angezeigt:
 
+![Live_Programm.png](https://github.com/Tom-Haustein/GTSRB_Neuronal_Network/blob/main/Bilder/Live_Programm.png)
 
+Wie ihr in dem Bild erkennen könnt, habe ich einfach ein Verkehrsschild ausgedruckt und in die Kamera gehalten. Trotz dass das Verkehrsschild nur mit Verkehrsschildern aus dem Straßenverkehr trainiert wurde, erkennt es das ausgedruckte Bild einwandfrei. 
+Mit einer Verkehrsschilderkennung zusammen, könnte das Netz vermutlich im Straßenverkehr eingesetzt werden.
 # Abschluss
 Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neuronalen Netze etwas erleichtern und ich hoffe ihr konntet etwas aus meinem Projekt mitnehmen. Bei Fragen und Anregungen könnt ihr mir auch schreiben. Lasst mir ruhig einen Stern da.
