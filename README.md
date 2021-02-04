@@ -1,7 +1,7 @@
 # 99,1% im GTSRB-Testdatensatz mit Tensorflow durch ein flaches CNN
 This project is also available in English. You can find the link [here](https://github.com/Tom-Haustein/GTSRB_Top-Result). (It's not done yet)
 
-Dieses Projekt beschäftigt sich mit der Entwicklung eines flachen CNN zur Erkennung von Verkehrsschildern. Das Projekt in Schriftform mit deutlich mehr Detail, Versuchen und Erklärungen findet ihr als PDF unter ![Projekt](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf).
+Dieses Projekt beschäftigt sich mit der Entwicklung eines flachen CNN zur Erkennung von Verkehrsschildern. Das Projekt in Schriftform mit deutlich mehr Details, Versuchen und Erklärungen findet ihr als PDF unter ![Projekt](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/Projekt.pdf).
 Alles Programmcodes usw. findet ihr im weiteren hier. Das trainierte Model mit Aufbau und Gewichtungen findet ihr hier: ![model](https://github.com/bomm412/GTSRB_Convolutional_Neural_Network/blob/main/models/model_99%2C105%25.hdf5)
 
 
@@ -77,7 +77,8 @@ Trainingsbilder = Trainingsbilder/255
 Trainingsbilder = np.asarray(Trainingsbilder, dtype = "float32")
 Trainingslabels = np.asarray(Trainingslabels, dtype= "float32")
 ```
-Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer csv-Datei geladen. Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den Testdatensatz und keinen Validiation-Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Bei einem Validiation-Datensatz wird ein Teil des Trainingsdatensatzes abgesplittet und als Testdatensatz behandelt. Dies macht aber hier einen relativ großen Unterschied, da der Testdatensatz deutlich schwieriger zu erkennende Bilder enthält und zudem mehrere Bilder von gleichen Verkehrsschildern im Trainingsdatensatz enthalten sind. Für ein neuronales Netz ist es kein Problem ein Bild von einem Verkehrsschild richtig zu klassifzieren, welches es fast identisch schon einmal gelernt hat. Ein Verkehrsschild richtig zu klassifzieren, welches es zuvor noch nie gesehen hat, ist deutlich schwieriger. Das CNN darf mit dem Testdatensatz auf keinen Fall trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
+Dieser Vorgang muss ebenfalls mit dem Testdatensatz durchgeführt werden. Dabei werden die richtigen Labels aus einer csv-Datei geladen. Der Testdatensatz ist nur dafür da, um zu beurteilen, wie genau das trainierte neuronale Netz tatsächlich ist. Im Vergleich zu vielen anderen ähnlichen Projekten mit dem GTSRB-Datensatz nutze ich den Testdatensatz und keinen Validation-Datensatz, in dem leicht höhere Ergebnisse erzielt werden können. Bei einem Validation-Datensatz wird ein Teil des Trainingsdatensatzes abgesplittet und als Testdatensatz behandelt. Dies macht aber hier einen relativ großen Unterschied, da der Testdatensatz deutlich schwieriger zu erkennende Bilder enthält und zudem mehrere Bilder von gleichen Verkehrsschildern im Trainingsdatensatz enthalten sind. Für ein neuronales Netz ist es kein Problem ein Bild von einem Verkehrsschild richtig zu klassifzieren, welches es fast identisch schon einmal gelernt hat. Ein Verkehrsschild richtig zu klassifzieren, welches es zuvor noch nie gesehen hat, ist deutlich schwieriger. Das CNN darf mit dem Testdatensatz auf keinen Fall trainiert werden, da dies das Ergebnis erheblich verfälschen würde. Das Laden des Testdatensatzes habe ich wie folgt gestaltet:
+
 ```ruby
 Testbilder = []
 Testlabels = []
