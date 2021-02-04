@@ -406,3 +406,27 @@ Mit einer Verkehrsschilderkennung zusammen, könnte das Netz vermutlich im Stra�
 
 # Abschluss
 Ich hoffe ich konnte mit meinem Projekt vielen den Einstieg in die Welt der neuronalen Netze etwas erleichtern und ich hoffe ihr konntet etwas aus meinem Projekt mitnehmen. Bei Fragen und Anregungen könnt ihr mir auch schreiben. Guckt auch gern bei meinen anderen Projekten vorbei.
+
+# ähnliche oder weiterführende Projekte/Paper
+
+Nguyen, Hoanh (2020,19.06.): „[Fast Traffic Sign Detection Approach Based on Lightweight Network and
+Multilayer Proposal Network](https://downloads.hindawi.com/journals/js/2020/8844348.pd)“
+
+Wasif Arman Haque, Samin Arefin, A.S.M. Shihavuddin, Muhammad Abul Hasan (2020,09.12.): „[DeepThin: A
+novel lightweight CNN architecture for traffic sign recognition without GPU requirements](https://scihub.st/10.1016/j.eswa.2020.114481)“
+
+Alvaro Arcos-García, Juan A. Alvarez-García, Luis M. Soria-Morillo (2017,25.07.): „[Deep Neural Network for
+Trac Sign Recognition Systems: An analysis of Spatial Transformers and Stochastic Optimization Methods](https://idus.us.es/bitstream/handle/11441/80679/NEUNET-D-17-
+00381.pdf;jsessionid=C17E132C16F755D73EAB35D11566DDB7?sequence=1)“
+
+Dan Ciresan¸ Ueli Meier, Jürgen Schmidhuber (2012, 13.02.): „[Multi-column Deep Neural Networks for Image
+Classification](https://arxiv.org/pdf/1202.2745v1.pdf)“
+
+Alexander Wong, Mohammad Javad Shafiee, Michael St. Jules (2018, 03.10.): „[MicronNet: A Highly Compact
+Deep Convolutional Neural Network Architecture for Real-time Embedded Traffic Sign Classification](https://arxiv.org/pdf/1804.00497v3.pdf)“
+
+Alex D. Pon, Oles Andrienko, Ali Harakeh, Steven L. Waslander (2018, 13.09.):
+„[A Hierarchical Deep Architecture and Mini-Batch Selection Method For Joint Traffic Sign and Light
+Detection](https://arxiv.org/pdf/1806.07987v2.pdf)“
+
+Mrinal Haloi (2016, 17.07.): „[Traffic Sign Classification Using Deep Inception Based Convolutional Networks](https://arxiv.org/pdf/1511.02992v2.pdf)“
